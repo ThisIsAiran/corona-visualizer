@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Corona</title>
+	<style type="text/css">
+		body{
+			background: #add8e6;
+			margin: 0px;
+			padding:0px;
+		}
+	.enviorment{
+		width: 85%;
+		margin: auto;
+		height: auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background: white;
+	}
+	.cases{
+		width: 100%;
+		height: auto;
+		margin: 10px, auto;
+		padding: 10px, auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		border-bottom: 1px solid lightgrey;
+	}
+	.caption{
+		width: 30%;
+		height: 300px;
+		margin-right: 10px; 
+		margin-top: 30px;
+		align-content: center;
+		align-items: center;
+		color: black;
+	}
+	 #container{
+	    width: 60%;
+	    height: 300px;
+	    margin-top: 20px;
+	}
+	#containerSecond {
+    	 width: 60%;
+	    height: 300px;
+	    margin-top: 20px;
+	}
+
+
+	.highcharts-figure, .highcharts-data-table table {
+	    min-width: 310px; 
+	    max-width: 800px;
+	    margin: 1em auto;
+	}
+
+	.highcharts-data-table table {
+	    font-family: Verdana, sans-serif;
+	    border-collapse: collapse;
+	    border: 1px solid #EBEBEB;
+	    margin: 10px auto;
+	    text-align: center;
+	    width: 100%;
+	    max-width: 500px;
+	}
+	.highcharts-data-table caption {
+	    padding: 1em 0;
+	    font-size: 1.2em;
+	    color: #555;
+	}
+	.highcharts-data-table th {
+		font-weight: 600;
+	    padding: 0.5em;
+	}
+	.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+	    padding: 0.5em;
+	}
+	.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+	    background: #f8f8f8;
+	}
+	.highcharts-data-table tr:hover {
+	    background: #f1f7ff;
+	}
+	.highcharts-exporting-group, .anychart-credits, .highcharts-credits{
+		display: none;
+	}
+	.path{
+		color: pink;
+	}
+
+</style>
+
+</head>
+<body>
+	<%- include('../partials/header') %>
+	<div class="enviorment">
+		<div class="cases">
+			<div class="caption">
+				<h1> 172 <h1>
+				<h3> Highest Number of Covid19 Positive cases of Age Group 20-29 </h3>
+			</div>
+				<div id="container"></div>
+		</div>
+
+		<div class="cases">
+		   	<div class="caption">
+				<h1> 24.86% <h1>
+				<h3> Highest percentage of Covid19 Positive cases Age Group 20-29 </h3>
+			</div>
+			<div id="containerSecond"></div>
+		</div>
+	</div>
+</body>
+<script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-base.min.js"></script>
+<script>
+	(
+		function(){
+				function ac_add_to_head(el){
+					var head = document.getElementsByTagName('head')[0];
+					head.insertBefore(el,head.firstChild);
+				}
+				function ac_add_link(url){
+					var el = document.createElement('link');
+					el.rel='stylesheet';el.type='text/css';el.media='all';el.href=url;
+					ac_add_to_head(el);
+				}
+				function ac_add_style(css){
+					var ac_style = document.createElement('style');
+					if (ac_style.styleSheet) ac_style.styleSheet.cssText = css;
+					else ac_style.appendChild(document.createTextNode(css));
+					ac_add_to_head(ac_style);
+				}
+				ac_add_link('https://cdn.anychart.com/releases/8.7.1/css/anychart-ui.min.css?hcode=a0c21fc77e1449cc86299c5faa067dc4');
+				ac_add_style(".anychart-embed-samples-bct-column-chart-01{width:600px;height:450px;}");
+				}
+			)();
+		</script>
+
+		<script >
+			anychart.onDocumentReady(function () {
+				var output =  <%- JSON.stringify(output) %>;
+				    var chart = anychart.column();
+				    var series = chart.column(
+				    	output);	
+				    chart.container("container");
+				    chart.draw();
+				});
+		</script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script >
+	var myData = <%- JSON.stringify(output) %>;
+	var xData = [];
+	var yData = [];
+	myData.forEach((row)=>{
+		xData.push(row[0])
+		yData.push(row[2])
+	})
+	Highcharts.chart('containerSecond', {
+    chart: {
+        type: 'area'
+    },
+    title: {
+        text: "" 
+            },
+    xAxis: {
+        categories: xData,
+        tickmarkPlacement: 'on',
+        title: {
+            text: ""
+        }
+    },
+    yAxis: {
+        labels: {
+            format:'{value}%'
+        },title: {
+            enabled: false
+        }
+    },
+    tooltip: {
+        split: true,
+        valueSuffix: '%'
+    },
+    plotOptions: {
+        area: {
+            stacking: 'normal',
+            lineColor: '#666666',
+            lineWidth: 1,
+            marker: {
+                lineWidth: 1,
+                lineColor: '#666666'
+            }
+        }
+    },
+    series: [{
+        name: "India",
+        data: yData
+    }]
+});
+</script>
+</html>

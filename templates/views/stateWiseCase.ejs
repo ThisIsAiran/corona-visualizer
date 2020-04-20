@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <style type="text/css">
+        	body{
+        		background-color: lightgray;
+        	}
+   			h1,h3,p{
+   				text-align: center;
+   			}
+   			path{
+   				stroke: red;
+   				stroke-width: 0.5px; 
+   				fill: blue;
+   				}
+   			#tooltip{
+   				text-align: left;
+   				padding: 16px;
+   				background-color: lightsalmon;
+   				border:1p solid black;
+   				width: auto;
+   				opacity: 0;
+   				color: black;
+   				position: absolute;
+   			}
+        </style>
+    </head>
+    <body>
+    	<div id="map"></div>
+    	<div id="tooltip">
+    		positive cases : <span id="positive" class="info"></span>
+    		deaths  : <span id="death" class="info"></span>
+	    	</div>
+	    	 <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.js"></script>
+    </body>
+    <script type="text/javascript">
+    	var w = 1000;
+    	var h = 480; 
+    	var projection = d3.geo.equirectangular()
+    	var path = d3.geo.path().projection(projection)
+    	var svg = d3.select('body')
+    				.append('svg')
+    				.attr('width', w)
+    				.attr('height', h)
+
+    	svg.append('rect')
+    		.attr('width', w)
+    		.attr('height', h)
+    		.attr('fill', 'white');
+
+    	var g = svg.append("g") 
+
+    	d3.json('http://localhost:8000/TrochWS/Projects/Corona/templates/topojson-master/countries/india/india-states.json', function(error, data){
+    		if(error) console.log(error);
+
+        g.append('path')
+          .datum(topojson.feature(data, data.objects.countries))
+          .attr('d',path);
+    	})
+    </script>
+</html>
