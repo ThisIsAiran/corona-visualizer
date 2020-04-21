@@ -7,10 +7,12 @@ const router = new express.Router()
 const fs = require('fs')
 const csv = require('csv-parser');
 
+
+
 router.get("/ageGroup", async (req, res)=>{
 	try{
 		let output = []	
-		var data = await fs.createReadStream('./AgeGroupDetails.csv')
+		var data = await fs.createReadStream('./routers/AgeGroupDetails.csv')
 		data.pipe(csv()).on('data',(row)=>{
 			output.push([row['AgeGroup'], parseInt(row['TotalCases']), parseFloat(row['Percentage'])])
 		}).on('end',()=>{
