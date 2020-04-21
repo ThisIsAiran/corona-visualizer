@@ -11,8 +11,10 @@ const csv = require('csv-parser');
 
 router.get("/ageGroup", async (req, res)=>{
 	try{
+		const viewsPath = path.join(__dirname, 'AgeGroupDetails.csv')
+		console.log(viewsPath)
 		let output = []	
-		var data = await fs.createReadStream('./routers/AgeGroupDetails.csv')
+		var data = await fs.createReadStream(viewsPath)
 		data.pipe(csv()).on('data',(row)=>{
 			output.push([row['AgeGroup'], parseInt(row['TotalCases']), parseFloat(row['Percentage'])])
 		}).on('end',()=>{
