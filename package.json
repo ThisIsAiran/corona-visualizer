@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js -e js,hbs,ejs"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +21,7 @@
     "express": "^4.17.1",
     "request": "^2.88.2"
   },
-  "permissions": [
-    "https://www.google.com/"
-  ]
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }
